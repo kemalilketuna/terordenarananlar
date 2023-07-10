@@ -10,9 +10,9 @@ services:
       - "9000:9000"
       - "9001:9001"
     environment:
-      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
-      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
-      - MINIO_DEFAULT_BUCKETS=files
+      - MINIO_ACCESS_KEY=${ACCESS_KEY}
+      - MINIO_SECRET_KEY=${SECRET_KEY}
+      - MINIO_DEFAULT_BUCKETS=${BUCKET_NAME}
     volumes:
       - minio_data:/data
     command: server --console-address ":9001" /data /mc admin user
