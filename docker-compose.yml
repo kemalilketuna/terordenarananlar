@@ -15,7 +15,7 @@ services:
       - MINIO_DEFAULT_BUCKETS=${BUCKET_NAME}
     volumes:
       - minio_data:/data
-    command: server --console-address ":9001" /data /mc admin user
+    command: server --console-address ":9001" /data
     restart: always
 
 volumes:
