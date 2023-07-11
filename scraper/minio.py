@@ -27,5 +27,4 @@ def send_photo(picture):
     response = client.put_object(
         "files", "my_key.jpeg", value_as_a_stream, length=len(value_as_bytes)
     )
-
     return response
