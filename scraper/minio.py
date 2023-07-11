@@ -1,6 +1,15 @@
 import os
 from minio import Minio
 import io
+import logging
+
+logging.basicConfig(
+    filename="minio.log",
+    level=logging.DEBUG,
+    format="%(asctime)s : %(levelname)s : %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+
 
 from dotenv import load_dotenv  # remove this later
 
@@ -19,12 +28,13 @@ if not found:
     client.make_bucket(BUCKET_NAME)
 
 
-def send_photo(picture):
+def send_photo(picture, file_name):
     value_as_bytes = picture.content
 
     value_as_a_stream = io.BytesIO(value_as_bytes)
 
     response = client.put_object(
-        "files", "my_key.jpeg", value_as_a_stream, length=len(value_as_bytes)
+        BUCKET_NAME, file_name, value_as_a_stream, length=len(value_as_bytes)
     )
+
     return response
