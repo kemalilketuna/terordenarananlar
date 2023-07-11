@@ -44,5 +44,5 @@ def send_photo(picture, file_name):
     response = client.put_object(
         BUCKET_NAME, file_name, value_as_a_stream, length=len(value_as_bytes)
     )
-
+    logging.info(f"Photo {file_name} uploaded successfully.")
     return response

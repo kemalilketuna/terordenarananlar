@@ -1,7 +1,4 @@
-import logging
 import os
-
-# import psycopg
 from sqlalchemy import Column, Integer, String, Boolean, JSON
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker
@@ -10,11 +7,6 @@ from sqlalchemy.orm import declarative_base
 from dotenv import load_dotenv  # remove this later
 
 load_dotenv()  # remove this later
-
-logging.basicConfig(
-    filename="scraper.log",
-    level=logging.DEBUG,
-)
 
 
 url = URL.create(
@@ -42,6 +34,7 @@ my_table = Table(
     Column("birth_year", Integer),
     Column("birth_place", String),
     Column("terrorist_organization", String),
+    Column("category", String),
     Column("isactive", Boolean),
     Column("photos", JSON),
 )
@@ -51,9 +44,6 @@ connection = engine.connect()
 if not engine.dialect.has_table(connection, "wanted_list"):
     # Create the table
     my_table.create(bind=engine)
-    logging.info("Wanted table is initialized.")
-else:
-    logging.info("Wanted table is already initialized.")
 connection.close()
 
 
