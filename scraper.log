@@ -1,0 +1,25 @@
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+INFO:root:Wanted table is already initialized.
+DEBUG:psycopg.pq:couldn't import psycopg 'c' implementation: No module named 'psycopg_c'
+DEBUG:psycopg.pq:couldn't import psycopg 'binary' implementation: No module named 'psycopg_binary'
+INFO:root:Wanted table is already initialized.
+DEBUG:psycopg.pq:couldn't import psycopg 'c' implementation: No module named 'psycopg_c'
+DEBUG:psycopg.pq:couldn't import psycopg 'binary' implementation: No module named 'psycopg_binary'
+INFO:root:Wanted table is already initialized.
+2023-07-11 13:40:30 - INFO - test
+2023-07-11 13:43:55 : DEBUG : couldn't import psycopg 'c' implementation: No module named 'psycopg_c'
+2023-07-11 13:43:55 : DEBUG : couldn't import psycopg 'binary' implementation: No module named 'psycopg_binary'
+2023-07-11 13:43:55 : INFO : Wanted table is already initialized.
+2023-07-11 13:43:55 : INFO : Service started.
