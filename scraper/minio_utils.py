@@ -1,18 +1,9 @@
 import os
 from minio import Minio
 import io
-import logging
 from dotenv import load_dotenv  # remove this later
 
 load_dotenv()
-
-logging.basicConfig(
-    filename="minio.log",
-    level=logging.DEBUG,
-    format="%(asctime)s : %(levelname)s : %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-
 
 from dotenv import load_dotenv  # remove this later
 
@@ -47,5 +38,4 @@ def send_photo(picture, file_name):
     response = client.put_object(
         BUCKET_NAME, file_name, value_as_a_stream, length=len(value_as_bytes)
     )
-    logging.info(f"Photo {file_name} uploaded successfully.")
     return response

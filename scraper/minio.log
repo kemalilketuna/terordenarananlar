@@ -1,30 +1,6 @@
-2023-07-12 15:41:43 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:41:43 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 404 310
-2023-07-12 15:41:43 : DEBUG : http://localhost:9000 "PUT /files HTTP/1.1" 200 0
-2023-07-12 15:42:05 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:42:05 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 200 128
-2023-07-12 15:42:05 : DEBUG : http://localhost:9000 "HEAD /files HTTP/1.1" 200 0
-2023-07-12 15:45:48 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:45:48 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 200 128
-2023-07-12 15:45:48 : DEBUG : http://localhost:9000 "HEAD /files HTTP/1.1" 200 0
-2023-07-12 15:50:34 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:50:34 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 404 310
-2023-07-12 15:50:34 : DEBUG : http://localhost:9000 "PUT /files HTTP/1.1" 200 0
-2023-07-12 15:53:03 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:53:03 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 404 310
-2023-07-12 15:53:03 : DEBUG : http://localhost:9000 "PUT /files HTTP/1.1" 200 0
-2023-07-12 15:53:36 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:53:36 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 200 128
-2023-07-12 15:53:36 : DEBUG : http://localhost:9000 "HEAD /files HTTP/1.1" 200 0
-2023-07-12 15:54:11 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:54:11 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 404 310
-2023-07-12 15:54:11 : DEBUG : http://localhost:9000 "PUT /files HTTP/1.1" 200 0
-2023-07-12 15:54:11 : DEBUG : http://localhost:9000 "PUT /files?policy= HTTP/1.1" 204 0
-2023-07-12 15:56:16 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:56:16 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 404 310
-2023-07-12 15:56:16 : DEBUG : http://localhost:9000 "PUT /files HTTP/1.1" 200 0
-2023-07-12 15:56:16 : DEBUG : http://localhost:9000 "PUT /files?policy= HTTP/1.1" 204 0
-2023-07-12 15:58:05 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 15:58:05 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 404 310
-2023-07-12 15:58:05 : DEBUG : http://localhost:9000 "PUT /files HTTP/1.1" 200 0
-2023-07-12 15:58:05 : DEBUG : http://localhost:9000 "PUT /files?policy= HTTP/1.1" 204 0
+2023-07-12 16:33:37 : DEBUG : Starting new HTTP connection (1): localhost:9000
+2023-07-12 16:33:37 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 200 128
+2023-07-12 16:33:37 : DEBUG : http://localhost:9000 "HEAD /files HTTP/1.1" 200 0
+2023-07-12 16:33:37 : INFO : Service started.
+2023-07-12 16:33:37 : INFO : Updating information
+2023-07-12 16:33:37 : INFO : Service sleeping 1 day
