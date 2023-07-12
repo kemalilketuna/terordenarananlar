@@ -1,6 +1,0 @@
-2023-07-12 16:33:37 : DEBUG : Starting new HTTP connection (1): localhost:9000
-2023-07-12 16:33:37 : DEBUG : http://localhost:9000 "GET /files?location= HTTP/1.1" 200 128
-2023-07-12 16:33:37 : DEBUG : http://localhost:9000 "HEAD /files HTTP/1.1" 200 0
-2023-07-12 16:33:37 : INFO : Service started.
-2023-07-12 16:33:37 : INFO : Updating information
-2023-07-12 16:33:37 : INFO : Service sleeping 1 day
