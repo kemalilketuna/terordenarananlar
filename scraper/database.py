@@ -19,6 +19,7 @@ url = URL.create(
 )
 
 engine = create_engine(url)
+engine = engine.execution_options(isolation_level="AUTOCOMMIT")
 
 Base = declarative_base()
 Base.metadata.create_all(bind=engine)
@@ -50,6 +51,7 @@ connection.close()
 def get_db_session():
     Session = sessionmaker(bind=engine)
     session = Session()
+
     return session
 
 

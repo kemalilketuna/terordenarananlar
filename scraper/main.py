@@ -3,7 +3,8 @@ import requests
 import logging
 
 # wait for the database to start
-sleep(10)
+# sleep(10) # remove this later
+
 from database import get_db_session, get_table
 
 logging.basicConfig(
@@ -14,8 +15,7 @@ logging.basicConfig(
 )
 logging.info("Service started.")
 
-
-def request_data():
+def _get_wanted_list():
     url = "https://www.terorarananlar.pol.tr/ISAYWebPart/TArananlar/GetTerorleArananlarList"
     while True:
         response = requests.post(url)
@@ -24,9 +24,24 @@ def request_data():
         logging.error("Request to website is failed.")
         sleep(60 * 60)
 
+def _get_neutralized_list():
+    url = "https://www.terorarananlar.pol.tr/ISAYWebPart/TArananlar/GetEtkisizList"
+    while True:
+        response = requests.post(url)
+        if response.status_code == 200:
+            return response.json()
+        logging.error("Request to website is failed.")
+        sleep(60 * 60)
 
-def insert_data(session, table, data):
-    new_row = table.insert().values(**data)
+def request_wanted_data():
+    
+
+
+
+def _insert_information(session, table, **data):
+    new_row = table.insert().values(data)
+    session.execute(new_row)
+    # session.commit()
 
 
 def update():
@@ -48,7 +63,7 @@ def update():
     session.execute(new_row)
 
     # Commit the changes
-    session.commit()
+    # session.commit()
     print("Data inserted successfully!")
 
     # Close the connection
