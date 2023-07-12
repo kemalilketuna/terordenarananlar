@@ -2,6 +2,9 @@ import os
 from minio import Minio
 import io
 import logging
+from dotenv import load_dotenv  # remove this later
+
+load_dotenv()
 
 logging.basicConfig(
     filename="minio.log",
@@ -15,9 +18,9 @@ from dotenv import load_dotenv  # remove this later
 
 load_dotenv()
 
-USER_NAME = os.environ("MINIO_USER_NAME")
-PASSWORD = os.environ("MINIO_PASSWORD")
-BUCKET_NAME = os.environ("BUCKET_NAME")
+USER_NAME = os.environ["MINIO_USER_NAME"]
+PASSWORD = os.environ["MINIO_PASSWORD"]
+BUCKET_NAME = os.environ["BUCKET_NAME"]
 
 client = Minio(
     endpoint="localhost:9000", access_key=USER_NAME, secret_key=PASSWORD, secure=False
@@ -26,14 +29,14 @@ client = Minio(
 found = client.bucket_exists(BUCKET_NAME)
 if not found:
     client.make_bucket(BUCKET_NAME)
-    client.set_bucket_policy()
 
     # set public read access
-    with open("policy.json", "r") as f:
+    with open("public_policy.json", "r") as f:
         policy = f.read()
 
-    policy = policy.replace("BUCKET_NAME", BUCKET_NAME)
-    client.set_bucket_policy(BUCKET_NAME, policy)
+        policy = policy.replace("BUCKET_NAME", BUCKET_NAME)
+
+        client.set_bucket_policy(BUCKET_NAME, policy)
 
 
 def send_photo(picture, file_name):
