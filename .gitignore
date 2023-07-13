@@ -1,5 +1,5 @@
 .env
 *.log
-scraper/__pycache__/
+scraper/__pycache__/*
 prototipe.ipynb
 
