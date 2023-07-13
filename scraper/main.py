@@ -17,7 +17,7 @@ BUCKET_NAME = os.environ["BUCKET_NAME"]
 
 logging.basicConfig(
     filename="scraper.log",
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s : %(levelname)s : %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
@@ -91,12 +91,14 @@ def _adapter(wanted_person, isactive):
     adapter["isactive"] = isactive
 
     photos_db = []
+    if not wanted_person["GorselURL"]:
+        adapter["photos"] = photos_db
     for photo_url in wanted_person["GorselURL"]:
         photos_db.append(
             minio_url_ceator(adapter["name"], adapter["surname"], photo_url)
         )
         upload_photo_to_minio(adapter["name"], adapter["surname"], photo_url)
-    adapter["photos"] = json.dumps(photos_db)
+    adapter["photos"] = json.dumps(photos_db, ensure_ascii=False)
     return adapter
 
 

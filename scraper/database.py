@@ -1,5 +1,6 @@
 import os
-from sqlalchemy import Column, Integer, String, Boolean, JSON
+from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.engine import URL
@@ -37,7 +38,7 @@ my_table = Table(
     Column("terrorist_organization", String),
     Column("category", String),
     Column("isactive", Boolean),
-    Column("photos", JSON),
+    Column("photos", JSONB),
 )
 
 connection = engine.connect()

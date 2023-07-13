@@ -1,1 +1,4 @@
 .env
+scraper.log
+scraper/scraper.log
+scraper/__pycache__

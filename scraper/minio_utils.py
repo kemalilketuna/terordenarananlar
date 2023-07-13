@@ -19,14 +19,12 @@ client = Minio(
 
 found = client.bucket_exists(BUCKET_NAME)
 if not found:
-    client.make_bucket(BUCKET_NAME)
-
     # set public read access
     with open("public_policy.json", "r") as f:
         policy = f.read()
 
         policy = policy.replace("BUCKET_NAME", BUCKET_NAME)
-
+        client.make_bucket(BUCKET_NAME)
         client.set_bucket_policy(BUCKET_NAME, policy)
 
 
