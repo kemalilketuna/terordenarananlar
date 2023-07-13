@@ -44,12 +44,12 @@ def _insert_to_db(session, table, person_db):
     session.execute(new_row)
 
 
-def get_info_from_db(session, table, person_db):
+def get_info_from_db(session, table, **person_info):
     stm = table.select().where(
-        table.c.name == person_db["name"]
-        and table.c.surname == person_db["surname"]
-        and table.c.birth_year == person_db["birth_year"]
-        and table.c.birth_place == person_db["birth_place"]
+        table.c.name == person_info["name"]
+        and table.c.surname == person_info["surname"]
+        and table.c.birth_year == person_info["birth_year"]
+        and table.c.birth_place == person_info["birth_place"]
     )
     result = session.execute(stm)
     if result.rowcount == 0:
@@ -80,30 +80,40 @@ def upload_photo_to_minio(name, surname, photo_url):
     send_photo(response, minio_name)
 
 
-def _adapter(wanted_person, isactive):
+def insert_to_db(session, table, person, isactive):
     adapter = {}
-    adapter["name"] = wanted_person["Adi"]
-    adapter["surname"] = wanted_person["Soyadi"]
+    adapter["name"] = person["Adi"]
+    adapter["surname"] = person["Soyadi"]
     try:
-        adapter["birth_year"] = int(wanted_person["DogumTarihi"])
+        adapter["birth_year"] = int(person["DogumTarihi"])
     except:
         adapter["birth_year"] = None
-    adapter["birth_place"] = wanted_person["DogumYeri"]
-    adapter["terrorist_organization"] = wanted_person["TOrgutAdi"]
-    adapter["category"] = wanted_person["TKategoriAdi"]
+    adapter["birth_place"] = person["DogumYeri"]
+    adapter["terrorist_organization"] = person["TOrgutAdi"]
+    adapter["category"] = person["TKategoriAdi"]
     adapter["isactive"] = isactive
 
     photos_db = []
-    if not wanted_person["GorselURL"]:
+    if not person["GorselURL"]:
         adapter["photos"] = json.dumps(photos_db)
     else:
-        for photo_url in wanted_person["GorselURL"]:
+        for photo_url in person["GorselURL"]:
             photos_db.append(
                 minio_url_ceator(adapter["name"], adapter["surname"], photo_url)
             )
             upload_photo_to_minio(adapter["name"], adapter["surname"], photo_url)
         adapter["photos"] = json.dumps(photos_db, ensure_ascii=False)
-    return adapter
+
+    _insert_to_db(session, table, adapter)
+
+
+def update_person_db(session, table, person, person_db, isactive):
+    # check active
+    if person_db.isactive == True and isactive == False:
+        person_db.isactive == False
+        table.update()
+
+    exit()
 
 
 def fetch():
@@ -115,13 +125,35 @@ def fetch():
 
     for category in wanted_list.values():
         for wanted_person in category:
-            person_db = _adapter(wanted_person, True)
-            _insert_to_db(session, table, person_db)
+            person_db = get_info_from_db(
+                session,
+                table,
+                name=wanted_person["Adi"],
+                surname=wanted_person["Soyadi"],
+                birth_year=wanted_person["DogumTarihi"],
+                birth_place=wanted_person["DogumYeri"],
+            )
+            if not person_db:
+                insert_to_db(session, table, wanted_person, True)
+            else:
+                update_person_db(session, table, wanted_person, person_db, True)
 
     for category in neutralized_list.values():
         for neutralized_person in category:
-            person_db = _adapter(neutralized_person, False)
-            _insert_to_db(session, table, person_db)
+            person_db = get_info_from_db(
+                session,
+                table,
+                name=neutralized_person["Adi"],
+                surname=neutralized_person["Soyadi"],
+                birth_year=neutralized_person["DogumTarihi"],
+                birth_place=neutralized_person["DogumYeri"],
+            )
+            if not person_db:
+                insert_to_db(session, table, wanted_person, False)
+            else:
+                update_person_db(session, table, wanted_person, person_db, False)
+
+    session.close()
 
 
 if __name__ == "__main__":
