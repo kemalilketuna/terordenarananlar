@@ -75,7 +75,7 @@ def insert_to_db(person, isactive):
     _insert_to_db(adapter)
 
 
-def update_person_db(person, person_db, isactive):
+def update_person_db(person):
     pass
 
 
@@ -85,11 +85,29 @@ def fetch():
 
     for category in neutralized_list.values():
         for neutralized_person in category:
-            insert_to_db(neutralized_person, False)
+            person_db = get_info_from_db(
+                name=neutralized_person["Adi"],
+                surname=neutralized_person["Soyadi"],
+                birth_year=neutralized_person["DogumTarihi"],
+                birth_place=neutralized_person["DogumYeri"],
+            )
+            if not person_db:
+                insert_to_db(neutralized_person, False)
+            else:
+                update_person_db(neutralized_person)
 
     for category in wanted_list.values():
         for wanted_person in category:
-            insert_to_db(wanted_person, True)
+            person_db = get_info_from_db(
+                name=wanted_person["Adi"],
+                surname=wanted_person["Soyadi"],
+                birth_year=wanted_person["DogumTarihi"],
+                birth_place=wanted_person["DogumYeri"],
+            )
+            if not person_db:
+                insert_to_db(wanted_person, True)
+            else:
+                update_person_db(wanted_person)
 
 
 if __name__ == "__main__":
