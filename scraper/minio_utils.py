@@ -32,3 +32,13 @@ def send_photo(picture, file_name):
         BUCKET_NAME, file_name, value_as_a_stream, length=len(value_as_bytes)
     )
     return response
+
+
+def _minio_name_genator(name, surname, photo_url):
+    end_part = photo_url.split("/")[-1]
+    return f"{name}_{surname}_{end_part}"
+
+
+def _minio_url_ceator(name, surname, photo_url):
+    base_url = "http://localhost:9000"
+    return f"{base_url}/{BUCKET_NAME}/{_minio_name_genator(name, surname, photo_url)}"

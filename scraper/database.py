@@ -28,6 +28,9 @@ Base = declarative_base()
 Base.metadata.create_all(bind=engine)
 meta = MetaData()
 
+Session = sessionmaker(bind=engine)
+session = Session()
+
 metadata = MetaData()
 table = Table(
     os.environ["POSTGRES_TABLE"],
@@ -44,29 +47,12 @@ table = Table(
 )
 
 connection = engine.connect()
-# Try to create the table, but ignore if it already exists
 if not engine.dialect.has_table(connection, os.environ["POSTGRES_TABLE"]):
-    # Create the table
     table.create(bind=engine)
 connection.close()
 
 
-def get_db_session():
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    return session
-
-
-def get_table():
-    global table
-    return table
-
-
-session = get_db_session()
-
-
-def get_info_from_db(table, **person_info):
+def get_info_from_db(**person_info):
     global session
     stm = table.select().where(
         and_(
@@ -80,4 +66,4 @@ def get_info_from_db(table, **person_info):
     if result.rowcount == 0:
         return None
     else:
-        return result.fetchone()
+        return result.fetchall()
