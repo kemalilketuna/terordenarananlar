@@ -84,7 +84,10 @@ def _adapter(wanted_person, isactive):
     adapter = {}
     adapter["name"] = wanted_person["Adi"]
     adapter["surname"] = wanted_person["Soyadi"]
-    adapter["birth_year"] = int(wanted_person["DogumTarihi"])
+    try:
+        adapter["birth_year"] = int(wanted_person["DogumTarihi"])
+    except:
+        adapter["birth_year"] = None
     adapter["birth_place"] = wanted_person["DogumYeri"]
     adapter["terrorist_organization"] = wanted_person["TOrgutAdi"]
     adapter["category"] = wanted_person["TKategoriAdi"]
@@ -92,13 +95,14 @@ def _adapter(wanted_person, isactive):
 
     photos_db = []
     if not wanted_person["GorselURL"]:
-        adapter["photos"] = photos_db
-    for photo_url in wanted_person["GorselURL"]:
-        photos_db.append(
-            minio_url_ceator(adapter["name"], adapter["surname"], photo_url)
-        )
-        upload_photo_to_minio(adapter["name"], adapter["surname"], photo_url)
-    adapter["photos"] = json.dumps(photos_db, ensure_ascii=False)
+        adapter["photos"] = json.dumps(photos_db)
+    else:
+        for photo_url in wanted_person["GorselURL"]:
+            photos_db.append(
+                minio_url_ceator(adapter["name"], adapter["surname"], photo_url)
+            )
+            upload_photo_to_minio(adapter["name"], adapter["surname"], photo_url)
+        adapter["photos"] = json.dumps(photos_db, ensure_ascii=False)
     return adapter
 
 
@@ -116,7 +120,7 @@ def fetch():
 
     for category in neutralized_list.values():
         for neutralized_person in category:
-            _adapter(neutralized_person, False)
+            person_db = _adapter(neutralized_person, False)
             _insert_to_db(session, table, person_db)
 
 

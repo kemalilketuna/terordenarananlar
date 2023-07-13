@@ -27,7 +27,7 @@ Base.metadata.create_all(bind=engine)
 meta = MetaData()
 
 metadata = MetaData()
-my_table = Table(
+table = Table(
     "wanted_list",
     metadata,
     Column("id", Integer, primary_key=True),
@@ -45,7 +45,7 @@ connection = engine.connect()
 # Try to create the table, but ignore if it already exists
 if not engine.dialect.has_table(connection, "wanted_list"):
     # Create the table
-    my_table.create(bind=engine)
+    table.create(bind=engine)
 connection.close()
 
 
@@ -57,5 +57,5 @@ def get_db_session():
 
 
 def get_table():
-    global my_table
-    return my_table
+    global table
+    return table
