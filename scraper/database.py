@@ -28,7 +28,7 @@ meta = MetaData()
 
 metadata = MetaData()
 table = Table(
-    "wanted_list",
+    os.environ["POSTGRES_TABLE"],
     metadata,
     Column("id", Integer, primary_key=True),
     Column("name", String),
@@ -43,7 +43,7 @@ table = Table(
 
 connection = engine.connect()
 # Try to create the table, but ignore if it already exists
-if not engine.dialect.has_table(connection, "wanted_list"):
+if not engine.dialect.has_table(connection, os.environ["POSTGRES_TABLE"]):
     # Create the table
     table.create(bind=engine)
 connection.close()
