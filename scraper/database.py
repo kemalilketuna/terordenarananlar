@@ -66,4 +66,21 @@ def get_info_from_db(**person_info):
     if result.rowcount == 0:
         return None
     else:
-        return result.fetchall()
+        return result.fetchone()
+
+
+def _update_category(db_id, new_category):
+    session.query(table).filter(table.c.id == db_id).update({"category": new_category})
+
+
+def _update_photos(db_id, photos_json):
+    session.query(table).filter(table.c.id == db_id).update({"photos": photos_json})
+
+
+def _update_isactive(db_id, new_isactive):
+    session.query(table).filter(table.c.id == db_id).update({"isactive": new_isactive})
+
+
+def _insert_to_db(data):
+    new_row = table.insert().values(data)
+    session.execute(new_row)
