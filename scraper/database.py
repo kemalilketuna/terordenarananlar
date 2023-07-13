@@ -5,6 +5,8 @@ from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import declarative_base
+from sqlalchemy import and_
+
 from dotenv import load_dotenv  # remove this later
 
 load_dotenv()  # remove this later
@@ -59,3 +61,23 @@ def get_db_session():
 def get_table():
     global table
     return table
+
+
+session = get_db_session()
+
+
+def get_info_from_db(table, **person_info):
+    global session
+    stm = table.select().where(
+        and_(
+            table.c.name == person_info["name"],
+            table.c.surname == person_info["surname"],
+            table.c.birth_year == person_info["birth_year"],
+            table.c.birth_place == person_info["birth_place"],
+        )
+    )
+    result = session.execute(stm)
+    if result.rowcount == 0:
+        return None
+    else:
+        return result.fetchone()

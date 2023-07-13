@@ -7,7 +7,7 @@ import json
 # wait for the database to start
 # sleep(10) # remove this later
 
-from database import get_db_session, get_table
+from database import get_db_session, get_table, get_info_from_db
 from minio_utils import send_photo
 from dotenv import load_dotenv  # remove this later
 
@@ -42,20 +42,6 @@ def get_wanted_terrorist_info():
 def _insert_to_db(session, table, person_db):
     new_row = table.insert().values(person_db)
     session.execute(new_row)
-
-
-def get_info_from_db(session, table, **person_info):
-    stm = table.select().where(
-        table.c.name == person_info["name"]
-        and table.c.surname == person_info["surname"]
-        and table.c.birth_year == person_info["birth_year"]
-        and table.c.birth_place == person_info["birth_place"]
-    )
-    result = session.execute(stm)
-    if result.rowcount == 0:
-        return None
-    else:
-        return result.fetchone()
 
 
 def photo_url_creator(photo_url):
@@ -108,12 +94,7 @@ def insert_to_db(session, table, person, isactive):
 
 
 def update_person_db(session, table, person, person_db, isactive):
-    # check active
-    if person_db.isactive == True and isactive == False:
-        person_db.isactive == False
-        table.update()
-
-    exit()
+    pass
 
 
 def fetch():
@@ -123,35 +104,13 @@ def fetch():
     wanted_list = get_wanted_terrorist_info()
     neutralized_list = get_neutralized_terrorist_info()
 
-    for category in wanted_list.values():
-        for wanted_person in category:
-            person_db = get_info_from_db(
-                session,
-                table,
-                name=wanted_person["Adi"],
-                surname=wanted_person["Soyadi"],
-                birth_year=wanted_person["DogumTarihi"],
-                birth_place=wanted_person["DogumYeri"],
-            )
-            if not person_db:
-                insert_to_db(session, table, wanted_person, True)
-            else:
-                update_person_db(session, table, wanted_person, person_db, True)
-
     for category in neutralized_list.values():
         for neutralized_person in category:
-            person_db = get_info_from_db(
-                session,
-                table,
-                name=neutralized_person["Adi"],
-                surname=neutralized_person["Soyadi"],
-                birth_year=neutralized_person["DogumTarihi"],
-                birth_place=neutralized_person["DogumYeri"],
-            )
-            if not person_db:
-                insert_to_db(session, table, wanted_person, False)
-            else:
-                update_person_db(session, table, wanted_person, person_db, False)
+            insert_to_db(session, table, neutralized_person, False)
+
+    for category in wanted_list.values():
+        for wanted_person in category:
+            insert_to_db(session, table, wanted_person, True)
 
     session.close()
 
