@@ -5,9 +5,6 @@ from dotenv import load_dotenv  # remove this later
 
 load_dotenv()
 
-from dotenv import load_dotenv  # remove this later
-
-load_dotenv()
 
 USER_NAME = os.environ["MINIO_USER_NAME"]
 PASSWORD = os.environ["MINIO_PASSWORD"]
@@ -30,9 +27,7 @@ if not found:
 
 def send_photo(picture, file_name):
     value_as_bytes = picture.content
-
     value_as_a_stream = io.BytesIO(value_as_bytes)
-
     response = client.put_object(
         BUCKET_NAME, file_name, value_as_a_stream, length=len(value_as_bytes)
     )
