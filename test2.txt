@@ -1,0 +1,8 @@
+export POSTGRES_USER=postgres
+export POSTGRES_PASSWORD=postgres
+export POSTGRES_DB=postgres
+export POSTGRES_HOST=db
+export POSTGRES_TABLE=wanted_list
+export MINIO_USER_NAME=minio
+export MINIO_PASSWORD=minio123
+export BUCKET_NAME=files
