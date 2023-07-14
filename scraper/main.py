@@ -5,7 +5,7 @@ import os
 import json
 
 # wait for the database to start
-# sleep(10) # remove this later
+sleep(10)  # remove this later
 
 from database import (
     get_info_from_db,
@@ -15,9 +15,7 @@ from database import (
     _update_photos,
 )
 from minio_utils import send_photo, _minio_name_genator, _minio_url_ceator
-from dotenv import load_dotenv  # remove this later
 
-load_dotenv()
 
 logging.basicConfig(
     filename="scraper.log",
@@ -88,11 +86,29 @@ def update_person_db(person_net, person_db, new_isactive):
         logging.info(f"{person_db.name} {person_db.surname}'s category is changed.")
 
     if person_db.isactive != new_isactive:
-        _update_category(person_db.id, new_isactive)
+        _update_isactive(person_db.id, new_isactive)
         if new_isactive:
             logging.info(f"{person_db.name} {person_db.surname} is active again.")
         else:
             logging.info(f"{person_db.name} {person_db.surname} is neaturalized.")
+
+    photo_net = person_net["GorselURL"]
+    photo_db = person_db.photos
+    if not photo_db:
+        photo_db = []
+    photo_count = len(photo_db)
+    if photo_net:
+        for photo in photo_net:
+            genareted_url = _minio_url_ceator(person_db.name, person_db.surname, photo)
+            if genareted_url not in photo_db:
+                upload_photo_to_minio(person_db.name, person_db.surname, photo)
+                photo_db.append(genareted_url)
+                logging.info(
+                    f"{person_db.name} {person_db.surname}'s new photo has been downloaded."
+                )
+                logging.info(genareted_url)
+        if len(photo_db) > photo_count:
+            _update_photos(person_db.id, json.dumps(photo_db, ensure_ascii=False))
 
 
 def fetch():

@@ -1,14 +1,11 @@
 import os
 from minio import Minio
 import io
-from dotenv import load_dotenv  # remove this later
-
-load_dotenv()
-
 
 USER_NAME = os.environ["MINIO_USER_NAME"]
 PASSWORD = os.environ["MINIO_PASSWORD"]
 BUCKET_NAME = os.environ["BUCKET_NAME"]
+HOST = os.environ["MINIO_HOST"]
 
 client = Minio(
     endpoint="localhost:9000", access_key=USER_NAME, secret_key=PASSWORD, secure=False

@@ -7,11 +7,6 @@ from sqlalchemy.engine import URL
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import and_
 
-from dotenv import load_dotenv  # remove this later
-
-load_dotenv()  # remove this later
-
-
 url = URL.create(
     "postgresql+psycopg",
     username=os.environ["POSTGRES_USER"],

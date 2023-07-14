@@ -1,11 +1,13 @@
-FROM python:alpine
+FROM python:3.10-slim
 RUN pip install --upgrade pip
 RUN pip install requests
 RUN pip install sqlalchemy
-RUN pip install psycopg
-COPY main.py .
-COPY minio.py .
-COPY database.py .
-COPY public_policy.json .
-CMD ["python", "./main.py"]
+RUN pip install minio
+RUN pip install psycopg[binary]
+COPY main.py /scraper/
+COPY minio_utils.py /scraper/
+COPY database.py /scraper/
+COPY public_policy.json /scraper/
+
+CMD ["python3", "scraper/main.py"]
 
