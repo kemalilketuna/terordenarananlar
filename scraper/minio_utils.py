@@ -6,15 +6,16 @@ USER_NAME = os.environ["MINIO_USER_NAME"]
 PASSWORD = os.environ["MINIO_PASSWORD"]
 BUCKET_NAME = os.environ["BUCKET_NAME"]
 HOST = os.environ["MINIO_HOST"]
+PORT = os.environ["MINIO_PORT"]
 
 client = Minio(
-    endpoint="localhost:9000", access_key=USER_NAME, secret_key=PASSWORD, secure=False
+    endpoint=f"{HOST}:{PORT}", access_key=USER_NAME, secret_key=PASSWORD, secure=False
 )
 
 found = client.bucket_exists(BUCKET_NAME)
 if not found:
     # set public read access
-    with open("public_policy.json", "r") as f:
+    with open("scraper/public_policy.json", "r") as f:
         policy = f.read()
 
         policy = policy.replace("BUCKET_NAME", BUCKET_NAME)
