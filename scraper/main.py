@@ -7,7 +7,13 @@ import json
 # wait for the database to start
 # sleep(10) # remove this later
 
-from database import get_info_from_db, _insert_to_db
+from database import (
+    get_info_from_db,
+    _insert_to_db,
+    _update_category,
+    _update_isactive,
+    _update_photos,
+)
 from minio_utils import send_photo, _minio_name_genator, _minio_url_ceator
 from dotenv import load_dotenv  # remove this later
 
@@ -75,8 +81,18 @@ def insert_to_db(person, isactive):
     _insert_to_db(adapter)
 
 
-def update_person_db(person):
-    pass
+def update_person_db(person_net, person_db, new_isactive):
+    new_category = person_net["TKategoriAdi"]
+    if person_db.category != new_category:
+        _update_category(person_db.id, new_category)
+        logging.info(f"{person_db.name} {person_db.surname}'s category is changed.")
+
+    if person_db.isactive != new_isactive:
+        _update_category(person_db.id, new_isactive)
+        if new_isactive:
+            logging.info(f"{person_db.name} {person_db.surname} is active again.")
+        else:
+            logging.info(f"{person_db.name} {person_db.surname} is neaturalized.")
 
 
 def fetch():
@@ -94,7 +110,7 @@ def fetch():
             if not person_db:
                 insert_to_db(neutralized_person, False)
             else:
-                update_person_db(neutralized_person)
+                update_person_db(neutralized_person, person_db, False)
 
     for category in wanted_list.values():
         for wanted_person in category:
@@ -107,7 +123,7 @@ def fetch():
             if not person_db:
                 insert_to_db(wanted_person, True)
             else:
-                update_person_db(wanted_person)
+                update_person_db(wanted_person, person_db, True)
 
 
 if __name__ == "__main__":
