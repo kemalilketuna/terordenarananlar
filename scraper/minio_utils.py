@@ -34,7 +34,8 @@ def send_photo(picture, file_name):
 
 def _minio_name_genator(name, surname, photo_url):
     end_part = photo_url.split("/")[-1]
-    return f"{name}_{surname}_{end_part}"
+    # !one person have '/' in name or surname
+    return f"{name}_{surname}_{end_part}".replace("/", "_")
 
 
 def _minio_url_ceator(name, surname, photo_url):

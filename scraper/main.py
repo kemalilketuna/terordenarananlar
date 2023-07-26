@@ -4,8 +4,12 @@ import logging
 import os
 import json
 
+# from dotenv import load_dotenv
+
+# load_dotenv()
+
 # wait for the database to start
-sleep(10)  # remove this later
+sleep(10)
 
 from database import (
     get_info_from_db,
@@ -54,8 +58,8 @@ def upload_photo_to_minio(name, surname, photo_url):
 
 def insert_to_db(person, isactive):
     adapter = {}
-    adapter["name"] = person["Adi"].replace("/", "")
-    adapter["surname"] = person["Soyadi"].replace("/", "")
+    adapter["name"] = person["Adi"]
+    adapter["surname"] = person["Soyadi"]
     try:
         adapter["birth_year"] = int(person["DogumTarihi"])
     except:
@@ -93,10 +97,9 @@ def update_person_db(person_net, person_db, new_isactive):
             logging.info(f"{person_db.name} {person_db.surname} is neaturalized.")
 
     photo_net = person_net["GorselURL"]
-    photo_db = person_db.photos
+    photo_db = json.loads(person_db.photos)
     if not photo_db:
         photo_db = []
-    photo_count = len(photo_db)
     if photo_net:
         for photo in photo_net:
             genareted_url = _minio_url_ceator(person_db.name, person_db.surname, photo)
@@ -107,8 +110,8 @@ def update_person_db(person_net, person_db, new_isactive):
                     f"{person_db.name} {person_db.surname}'s new photo has been downloaded."
                 )
                 logging.info(genareted_url)
-        if len(photo_db) > photo_count:
-            _update_photos(person_db.id, json.dumps(photo_db, ensure_ascii=False))
+
+                _update_photos(person_db.id, json.dumps(photo_db, ensure_ascii=False))
 
 
 def fetch():
