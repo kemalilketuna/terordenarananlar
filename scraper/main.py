@@ -54,8 +54,8 @@ def upload_photo_to_minio(name, surname, photo_url):
 
 def insert_to_db(person, isactive):
     adapter = {}
-    adapter["name"] = person["Adi"]
-    adapter["surname"] = person["Soyadi"]
+    adapter["name"] = person["Adi"].replace("/", "")
+    adapter["surname"] = person["Soyadi"].replace("/", "")
     try:
         adapter["birth_year"] = int(person["DogumTarihi"])
     except:
