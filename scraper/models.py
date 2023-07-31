@@ -39,7 +39,7 @@ Base = declarative_base()
 class T_o(Base):
     __tablename__ = "t_o"
     t_o_id = Column(Integer, primary_key=True, autoincrement=True)
-    t_o_name = Column(String(30), nullable=False, index=True, unique=True)
+    t_o_name = Column(String(45), nullable=False, index=True, unique=True)
 
     def __str__(self):
         return f"{self.__class__.__name__}, t_organization: {self.t_o_name}"
