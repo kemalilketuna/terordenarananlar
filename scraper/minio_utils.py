@@ -39,11 +39,11 @@ def _minio_name_genator(name, surname, photo_url):
     index = 1
     while True:
         try:
-            client.stat_object(BUCKET_NAME, f"{name}_{surname}_{index}.jpg")
+            client.stat_object(BUCKET_NAME, f"{name}_{surname}_{index}.jpeg")
             index += 1
         except:
             break
-    return f"{name}_{surname}_{index}.jpg"
+    return f"{name}_{surname}_{index}.jpeg"
 
 
 def _minio_url_ceator(name, surname, photo_url):
