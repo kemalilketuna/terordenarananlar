@@ -5,7 +5,7 @@ import io
 USER_NAME = os.environ["MINIO_USER_NAME"]
 PASSWORD = os.environ["MINIO_PASSWORD"]
 BUCKET_NAME = os.environ["BUCKET_NAME"]
-HOST = os.environ["MINIO_HOST"]
+HOST = "localhost"  # os.environ["MINIO_HOST"]
 PORT = os.environ["MINIO_PORT"]
 
 client = Minio(
