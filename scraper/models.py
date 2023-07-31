@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from sqlalchemy import (
     Column,
     DateTime,
@@ -9,19 +8,14 @@ from sqlalchemy import (
     Boolean,
     UniqueConstraint,
     create_engine,
+    func,
 )
 from sqlalchemy.orm import Relationship, declarative_base, sessionmaker, scoped_session
 from sqlalchemy.engine import URL
 
-
-from dotenv import load_dotenv
-
-load_dotenv()
-
-
 POSTGRES_USER = os.environ["POSTGRES_USER"]
 POSTGRES_PASSWORD = os.environ["POSTGRES_PASSWORD"]
-POSTGRES_HOST = "localhost"  # os.environ["POSTGRES_HOST"]
+POSTGRES_HOST = os.environ["POSTGRES_HOST"]
 POSTGRES_PORT = os.environ["POSTGRES_PORT"]
 POSTGRES_DB = os.environ["POSTGRES_DB"]
 
@@ -40,7 +34,6 @@ session = scoped_session(sessionmaker(bind=engine))
 
 
 Base = declarative_base()
-# Base.query = session.query_property()
 
 
 class T_o(Base):
@@ -73,7 +66,7 @@ class Record(Base):
     t_o_id = Column(Integer, ForeignKey("t_o.t_o_id"), nullable=False)
     category_id = Column(Integer, ForeignKey("categories.category_id"), nullable=False)
     is_active = Column(Boolean, nullable=False)
-    record_time = Column(DateTime, default=datetime.utcnow())
+    record_time = Column(DateTime(timezone=True), server_default=func.now())
 
     def __str__(self):
         return f"{self.__class__.__name__}, record_id: {self.record_id}, person_id: {self.id},is_active: {self.is_active}"
@@ -89,7 +82,7 @@ class Picture(Base):
         index=True,
     )
     picture_url = Column(String(120), nullable=False)
-    record_time = Column(DateTime, default=datetime.utcnow())
+    record_time = Column(DateTime(timezone=True), server_default=func.now())
 
     def __str__(self):
         return f"{self.__class__.__name__}, picture_id: {self.picture_id}, person_id: {self.id}, picture: {self.picture}"

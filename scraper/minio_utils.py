@@ -5,7 +5,7 @@ import io
 USER_NAME = os.environ["MINIO_USER_NAME"]
 PASSWORD = os.environ["MINIO_PASSWORD"]
 BUCKET_NAME = os.environ["BUCKET_NAME"]
-HOST = "localhost"  # os.environ["MINIO_HOST"]
+HOST = os.environ["MINIO_HOST"]
 PORT = os.environ["MINIO_PORT"]
 
 client = Minio(
@@ -33,9 +33,17 @@ def send_photo(picture, file_name):
 
 
 def _minio_name_genator(name, surname, photo_url):
-    end_part = photo_url.split("/")[-1]
-    # !one person have '/' in name or surname
-    return f"{name}_{surname}_{end_part}".replace("/", "_")
+    name = name.replace(" ", "_")
+    surname = surname.capitalize()
+    # check image already exists
+    index = 1
+    while True:
+        try:
+            client.stat_object(BUCKET_NAME, f"{name}_{surname}_{index}.jpg")
+            index += 1
+        except:
+            break
+    return f"{name}_{surname}_{index}.jpg"
 
 
 def _minio_url_ceator(name, surname, photo_url):

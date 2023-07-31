@@ -1,16 +1,10 @@
 from time import sleep
 import requests
 import logging
-import json
-from database_utils import *
-
-# from dotenv import load_dotenv
-
-# load_dotenv()
 
 # wait for the database to start
-# sleep(10)
-
+sleep(10)
+from database_utils import *
 from minio_utils import send_photo, _minio_name_genator, _minio_url_ceator
 
 
