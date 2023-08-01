@@ -66,7 +66,9 @@ class Record(Base):
     t_o_id = Column(Integer, ForeignKey("t_o.t_o_id"), nullable=False)
     category_id = Column(Integer, ForeignKey("categories.category_id"), nullable=False)
     is_active = Column(Boolean, nullable=False)
-    record_time = Column(DateTime(timezone=True), server_default=func.now())
+    record_time = Column(
+        DateTime(timezone=True), server_default=func.timezone("utc+4", func.now())
+    )
 
     def __str__(self):
         return f"{self.__class__.__name__}, record_id: {self.record_id}, person_id: {self.id},is_active: {self.is_active}"
