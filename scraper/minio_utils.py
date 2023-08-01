@@ -34,7 +34,6 @@ def send_photo(picture, file_name):
 
 def _minio_name_genator(name, surname, photo_url):
     name = name.replace(" ", "_")
-    surname = surname.capitalize()
     # check image already exists
     index = 1
     while True:
