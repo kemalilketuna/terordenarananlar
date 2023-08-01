@@ -10,7 +10,7 @@ from sqlalchemy import (
     create_engine,
     func,
 )
-from sqlalchemy.orm import Relationship, declarative_base, sessionmaker, scoped_session
+from sqlalchemy.orm import declarative_base, sessionmaker, scoped_session
 from sqlalchemy.engine import URL
 
 POSTGRES_USER = os.environ["POSTGRES_USER"]
