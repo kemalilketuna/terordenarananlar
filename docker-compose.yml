@@ -53,6 +53,7 @@ services:
       - MINIO_PASSWORD=${MINIO_PASSWORD}
       - MINIO_PORT=${MINIO_PORT}
       - BUCKET_NAME=${BUCKET_NAME}
+    restart: always
 
 volumes:
   minio_data:
